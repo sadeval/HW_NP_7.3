@@ -18,19 +18,15 @@ namespace UserManagementApp
         {
             InitializeComponent();
 
-            // Инициализация HttpClient
             httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:5000/");
 
-            // Инициализация списка пользователей
             people = new List<Person>();
 
-            // Запуск сервера
             server = new SimpleHttpServer();
             server.Start("http://localhost:5000/");
         }
 
-        // Метод для загрузки списка пользователей (Read)
         private async void btnLoad_Click(object sender, EventArgs e)
         {
             await LoadPeople();
@@ -55,7 +51,6 @@ namespace UserManagementApp
             }
         }
 
-        // Метод для добавления нового пользователя (Create)
         private async void btnAdd_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtName.Text) || string.IsNullOrWhiteSpace(txtSalary.Text))
@@ -96,7 +91,6 @@ namespace UserManagementApp
             }
         }
 
-        // Метод для обновления выбранного пользователя (Update)
         private async void btnUpdate_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
@@ -147,7 +141,6 @@ namespace UserManagementApp
             }
         }
 
-        // Метод для удаления выбранного пользователя (Delete)
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
@@ -186,7 +179,6 @@ namespace UserManagementApp
             }
         }
 
-        // Метод для обработки изменения выбора в DataGridView
         private void dataGridView1_SelectionChanged(object sender, EventArgs e)
         {
             if (dataGridView1.CurrentRow == null)
@@ -203,7 +195,6 @@ namespace UserManagementApp
             }
         }
 
-        // Метод для очистки полей ввода
         private void ClearInputFields()
         {
             txtName.Clear();
@@ -211,7 +202,6 @@ namespace UserManagementApp
             dateTimePicker1.Value = DateTime.Now;
         }
 
-        // Остановка сервера при закрытии формы
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             server.Stop();
