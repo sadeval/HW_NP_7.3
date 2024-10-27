@@ -68,12 +68,10 @@ namespace UserManagementApp
             {
                 if (request.HttpMethod == "GET" && request.Url.AbsolutePath == "/persons")
                 {
-                    // Read operation: Get all persons
                     responseString = JsonConvert.SerializeObject(people);
                 }
                 else if (request.HttpMethod == "POST" && request.Url.AbsolutePath == "/persons")
                 {
-                    // Create operation: Add a new person
                     using (var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
                     {
                         string json = reader.ReadToEnd();
@@ -81,12 +79,11 @@ namespace UserManagementApp
                         person.Id = Guid.NewGuid().ToString();
                         people.Add(person);
                         responseString = JsonConvert.SerializeObject(person);
-                        statusCode = 201; // Created
+                        statusCode = 201; 
                     }
                 }
                 else if (request.HttpMethod == "PUT" && request.Url.AbsolutePath.StartsWith("/persons/"))
                 {
-                    // Update operation
                     string id = request.Url.AbsolutePath.Substring("/persons/".Length);
                     using (var reader = new System.IO.StreamReader(request.InputStream, request.ContentEncoding))
                     {
@@ -102,14 +99,13 @@ namespace UserManagementApp
                         }
                         else
                         {
-                            statusCode = 404; // Not Found
+                            statusCode = 404; 
                             responseString = $"{{\"error\":\"Person with Id {id} not found.\"}}";
                         }
                     }
                 }
                 else if (request.HttpMethod == "DELETE" && request.Url.AbsolutePath.StartsWith("/persons/"))
                 {
-                    // Delete operation
                     string id = request.Url.AbsolutePath.Substring("/persons/".Length);
                     var person = people.Find(p => p.Id == id);
                     if (person != null)
@@ -119,19 +115,19 @@ namespace UserManagementApp
                     }
                     else
                     {
-                        statusCode = 404; // Not Found
+                        statusCode = 404; 
                         responseString = $"{{\"error\":\"Person with Id {id} not found.\"}}";
                     }
                 }
                 else
                 {
-                    statusCode = 404; // Not Found
+                    statusCode = 404; 
                     responseString = "{\"error\":\"Endpoint not found.\"}";
                 }
             }
             catch (Exception ex)
             {
-                statusCode = 500; // Internal Server Error
+                statusCode = 500; 
                 responseString = $"{{\"error\":\"{ex.Message}\"}}";
             }
 
